@@ -1,94 +1,3 @@
-
-// // Colores base
-// $green-light: #8bc34a;
-// $green-dark:  #33691e;
-// $yellow:      #ffeb3b;
-
-// .solicitudes-grid {
-//   height: 100%;
-
-//   .section {
-//     margin-top: 1rem;
-//   }
-
-//   .select-section {
-//     .selector-item {
-//       --background: #fff;
-//       border-radius: 0.5rem;
-//       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-//     }
-//   }
-
-//   .form-section {
-//     .fields-grid {
-//       .field-row {
-//         align-items: center;
-//         margin-bottom: 1rem;
-
-//         .field-label {
-//           text-align: right;
-//           font-weight: 600;
-//           padding-right: 0.5rem;
-//         }
-//         .field-input {
-//           ion-input,
-//           ion-radio-group,
-//           ion-checkbox {
-//             width: 100%;
-//           }
-//         }
-//       }
-//     }
-
-//     .send-button {
-//       background: #FFF314;
-//       margin-top: 1rem;
-//       color: #000;
-//     }
-//   }
-
-//   .history-section {
-//     .history-title {
-//       text-align: center;
-//       font-size: 1.2rem;
-//       margin-bottom: 0.5rem;
-//       color: $green-dark;
-//     }
-//     ion-item {
-//       --background: #fff;
-//       border-radius: 0.5rem;
-//       margin-bottom: 0.5rem;
-//       box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-//       ion-button {
-//         color: $green-light;
-//       }
-//     }
-//     .no-requests {
-//       text-align: center;
-//       color: #666;
-//       margin-top: 2rem;
-//     }
-//   }
-
-//   // Avatar en header
-//   .avatar-button {
-//     ion-avatar {
-//       width: 36px;
-//       height: 36px;
-//     }
-//   }
-
-//   // Responsivo: ajusta paddings en pantallas grandes
-//   @media (min-width: 768px) {
-//     .select-section,
-//     .form-section,
-//     .history-section {
-//       margin-top: 2rem;
-//     }
-//   }
-// }
-
-
 /* solicitudes.page.scss */
 
 ion-toolbar {
@@ -129,18 +38,12 @@ ion-toolbar {
     border: 1px solid red !important;
     border-radius: 6px;
   }
-/* requests.component.scss */
 
 ion-radio {
-  /* Aumenta el tamaño si lo deseas */
   --size: 24px;
-
-  /* Borde para el círculo exterior */
   --border-width: 2px;
   --border-style: solid;
-  --border-color: #11770E;  /* Forest Green de tu paleta */
-
-  /* Color del punto interior al estar seleccionado */
+  --border-color: #11770E;
   --checkmark-color: #11770E;
 }
 
@@ -235,7 +138,6 @@ ion-radio {
       }
 
       ion-button {
-        //--background: var(--ion-color-medium);
         --color: rgb(245, 247, 244);
         background: #027409;
         border-radius: 30%;
