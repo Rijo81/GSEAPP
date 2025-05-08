@@ -1,0 +1,36 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu *ngIf="showMenu" contentId="main-content" type="overlay">
+      <ion-header>
+        <ion-toolbar>
+          <ion-list-header style="color: white; font-size:x-large;">GSE</ion-list-header>
+          <ion-note style="color: white; font-weight: bold; font-family: Helvetica;">Gestion de Solicitudes</ion-note>
+          <ion-menu-toggle auto-hide="true">
+            <ion-button color="dark" size="small" (click)="logout()">
+              <ion-icon name="log-out" slot="start"></ion-icon>
+              Cerrar sesión
+            </ion-button>
+          </ion-menu-toggle>
+          <ion-buttons slot="end">
+            <ion-menu-button>
+              <ion-icon color="light" name="close"></ion-icon>
+            </ion-menu-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list id="inbox-list">
+          @for (p of appPages; track p; let i = $index) {
+            <ion-menu-toggle auto-hide="false">
+              <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+                <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+                <ion-label>{{ p.title }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          }
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

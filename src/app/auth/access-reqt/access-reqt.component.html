@@ -1,0 +1,202 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/auth" class="ibb"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Solicitar Acceso</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h1 class="sub-title">Solicitud de Acceso</h1>
+  <form [formGroup]="accessForm" (ngSubmit)="submitRequest()" class="access-form">
+
+    <div class="field-group">
+      <ion-item class="field-item">
+        <ion-label position="floating">Nombre completo</ion-label>
+        <ion-input formControlName="fullname"></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('fullname').touched && accessForm.get('fullname').invalid"
+           class="error-text">
+        El nombre es obligatorio
+      </div>
+    </div>
+
+    <div class="field-group">
+      <ion-item class="field-item">
+        <ion-label position="floating">Correo electrónico</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('email').touched && accessForm.get('email').invalid"
+           class="error-text">
+        Debes introducir un correo válido
+      </div>
+    </div>
+
+    <div class="field-group">
+      <ion-item class="field-item">
+        <ion-label position="floating">Teléfono</ion-label>
+        <ion-input type="tel" formControlName="phone"></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('phone').touched && accessForm.get('phone').invalid"
+           class="error-text">
+        El teléfono es obligatorio
+      </div>
+    </div>
+
+    <div class="field-group full-width">
+      <ion-item class="field-item">
+        <ion-label position="floating">Información Relevante: </ion-label>
+        <ion-textarea
+          rows="6"
+          formControlName="information"
+          auto-grow="false"
+          placeholder="Información Relevante que nos permita confirmar que perteneces a nuestra familia.">
+        </ion-textarea>
+      </ion-item>
+      <div *ngIf="accessForm.get('information').touched && accessForm.get('information').invalid"
+           class="error-text">
+        Este campo es obligatorio
+      </div>
+    </div>
+
+    <div class="field-group full-width">
+      <ion-item class="field-item">
+        <ion-label>Grupo al que Perteneces</ion-label>
+        <ion-select formControlName="group">
+          <ion-select-option *ngFor="let g of groups" [value]="g.name">
+            {{ g.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div *ngIf="accessForm.get('group').touched && accessForm.get('group').invalid"
+           class="error-text">
+        Debes seleccionar un grupo
+      </div>
+    </div>
+
+     <!-- campos para Docente -->
+     <ng-container *ngIf="accessForm.get('group')!.value === 'Docente'">
+      <div class="field-group">
+      <ion-item class="field-item">
+        <ion-label position="floating">Asignatura</ion-label>
+        <ion-input formControlName="subjectSchool" required></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('subjectSchool').touched && accessForm.get('subjectSchool').invalid"
+             class="error-text">
+          Debe introducir una asignatura.
+        </div>
+      </div>
+      <div class="field-group">
+        <ion-item class="field-item">
+        <ion-label position="floating">Curso</ion-label>
+        <ion-input formControlName="courseTeacher" required></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('courseTeacher').touched && accessForm.get('courseTeacher').invalid"
+             class="error-text">
+             Debe introducir un curso.
+        </div>
+      </div>
+      <div class="field-group">
+        <ion-item class="field-item">
+        <ion-label position="floating">Sección</ion-label>
+        <ion-input formControlName="sectionTeacher" required></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('sectionTeacher').touched && accessForm.get('sectionTeacher').invalid"
+             class="error-text">
+             Debe introducir una sección.
+        </div>
+      </div>
+      <div class="field-group">
+        <ion-item class="field-item">
+        <ion-label>Modalidad</ion-label>
+        <ion-select formControlName="modalidad">
+          <ion-select-option value="Academica">Académica</ion-select-option>
+          <ion-select-option value="Tecnica">Técnica</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div *ngIf="accessForm.get('modalidad').touched && accessForm.get('modalidad').invalid"
+             class="error-text">
+          Seleccione una modalidad.
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- campos para Estudiante -->
+    <ng-container *ngIf="accessForm.get('group')!.value === 'Estudiantes'">
+      <div class="field-group">
+        <ion-item class="field-item">
+        <ion-label position="floating">Curso</ion-label>
+        <ion-input formControlName="courseStudent" required></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('courseStudent').touched && accessForm.get('courseStudent').invalid"
+             class="error-text">
+             Debe introducir el curso.
+        </div>
+      </div>
+      <div class="field-group">
+        <ion-item class="field-item">
+        <ion-label position="floating">Año escolar</ion-label>
+        <ion-input formControlName="schoolYear" required></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('schoolYear').touched && accessForm.get('schoolYear').invalid"
+             class="error-text">
+             Debe introducir el año que curso.
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- campos para Padre -->
+    <ng-container *ngIf="accessForm.get('group')!.value === 'Padre'">
+      <div class="field-group">
+        <ion-item class="field-item">
+        <ion-label position="floating">Nombre del Hijo</ion-label>
+        <ion-input formControlName="nameChildren" required></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('nameChildren').touched && accessForm.get('nameChildren').invalid"
+             class="error-text">
+             Debe introducir el nombre completo de hijo/a.
+        </div>
+      </div>
+      <div class="field-group">
+        <ion-item class="field-item">
+        <ion-label position="floating">Curso</ion-label>
+        <ion-input formControlName="courseFather" required></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('courseFather').touched && accessForm.get('courseFather').invalid"
+             class="error-text">
+             Debe introducir el curso.
+        </div>
+      </div>
+      <div class="field-group">
+        <ion-item class="field-item">
+        <ion-label position="floating">Sección</ion-label>
+        <ion-input formControlName="sectionFather" required></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('sectionFather').touched && accessForm.get('sectionFather').invalid"
+             class="error-text">
+             Debe introducir la sección.
+        </div>
+      </div>
+      <div class="field-group">
+        <ion-item class="field-item">
+        <ion-label position="floating">Taller que Pertenece</ion-label>
+        <ion-input formControlName="workshop" required></ion-input>
+      </ion-item>
+      <div *ngIf="accessForm.get('workshop').touched && accessForm.get('workshop').invalid"
+             class="error-text">
+             Debe introducir el taller.
+        </div>
+      </div>
+    </ng-container>
+
+    <ion-button
+      type="submit"
+      expand="block"
+      [disabled]="accessForm.invalid"
+      class="btn-submit">
+      Solicitar Acceso
+    </ion-button>
+
+  </form>
+</ion-content>

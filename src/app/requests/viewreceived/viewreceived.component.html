@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Solicitudes Recibidas</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-avatar id="userview-avatar">
+        <img [src]="userPhoto || 'assets/user.png'" />
+      </ion-avatar>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-popover trigger="userview-avatar" dismiss-on-select="true">
+    <ng-template>
+      <ion-list>
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar sesión
+        </ion-item>
+        <ion-item button (click)="changePassword()">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          Cambiar contraseña
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <h2 class="sub-title">Solicitudes</h2>
+
+  <ion-card *ngFor="let request of filteredRequests" class="custom-card" (click)="goToDetails(request.id)">
+    <ion-card-header>
+      <ion-card-title>{{ request.typeName }}</ion-card-title>
+      <ion-card-subtitle>
+        <strong>De:</strong> {{ request.group_origin.name }} |
+        <strong>Para:</strong> {{ request.group_destine.name }}
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ul class="borderlist">
+        @for (key of objectKeys(request.formData); track $index) {
+          <li class="styled-item">
+            <strong>{{ key }}:</strong>
+            <ng-container *ngIf="isImage(request.formData[key]); else nonImageContent">
+              <img [src]="request.formData[key]" class="preview-img" />
+            </ng-container>
+            <ng-template #nonImageContent>
+              @if (isStringOrNumber(request.formData[key])) {
+                <span>{{ request.formData[key] }}</span>
+              }
+            </ng-template>
+          </li>
+        }
+      </ul>
+
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>

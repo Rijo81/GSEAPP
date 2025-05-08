@@ -1,0 +1,223 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Grupos</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-avatar id="usergroup-avatar">
+        <img [src]="userPhoto || 'assets/user.png'" />
+      </ion-avatar>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-popover trigger="usergroup-avatar" dismiss-on-select="true">
+    <ng-template>
+      <ion-list>
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar sesión
+        </ion-item>
+        <ion-item button (click)="changePassword()">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          Cambiar contraseña
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <h1 class="sub-title">Gestión de Grupos</h1>
+
+  <!-- 🔹 Modal Crear Grupo -->
+  <ion-modal #modalCreate>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="light" (click)="cancelModalCreate()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Crear Grupo</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form (submit)="addGroup(formCreate)" #formCreate="ngForm">
+          <ion-item>
+            <ion-label position="floating">Nombre de Grupo</ion-label>
+            <ion-input
+              type="text"
+              [(ngModel)]="newGroup.name"
+              name="name"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Grupo Padre</ion-label>
+            <ion-select
+              [(ngModel)]="selectedGroup"
+              name="parentGroupCreate"
+              [ngModelOptions]="{ standalone: true }"
+              placeholder="Seleccione el grupo padre"
+            >
+              <ion-select-option
+                *ngFor="let group of groups"
+                [value]="group.id"
+              >
+                {{ group.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-label class="lbPermis">Permisos</ion-label>
+          <ion-item>
+            <ion-checkbox  justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_init_request" name="initreq">Pantalla de Inicio Solicitud</ion-checkbox><br>
+          </ion-item>
+          <ion-item>
+            <ion-checkbox  justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_init_excuse" name="initexcuse">Pantalla de Inicio Excusa</ion-checkbox><br>
+          </ion-item>
+          <ion-item>
+              <ion-checkbox  justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_states" name="state">Gestionar Estados</ion-checkbox><br>
+          </ion-item>
+          <ion-item>
+            <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_groups" name="group">Gestionar Grupos</ion-checkbox><br>
+          </ion-item>
+          <ion-item>
+            <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_users" name="user">Gestionar Usuarios</ion-checkbox><br>
+          </ion-item>
+          <ion-item>
+            <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_typerequests" name="trequest">Gestionar Tipo de Solicitud</ion-checkbox><br>
+          </ion-item>
+          <ion-item>
+            <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_requests" name="req">Enviar Solicitudes</ion-checkbox><br>
+          </ion-item>
+          <ion-item>
+            <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_viewsolic" name="view">Solicitudes Recibidas</ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_access_requests" name="access">Permitir Acceso de Login</ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_config" name="config">Configuraciones</ion-checkbox>
+          </ion-item>
+          <ion-button expand="full" type="submit" shape="round" [disabled]="!formCreate.form.valid">
+            Agregar
+          </ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- 🔹 Modal Editar Grupo -->
+  <ion-modal #modalUpdate>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="light" (click)="cancelModalUpdate()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Editar Grupo</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form (submit)="updateGroup()" #formEdit="ngForm">
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input
+              type="text"
+              [(ngModel)]="newGroup.name"
+              name="editName"
+              required
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Grupo Padre</ion-label>
+            <ion-select
+                [(ngModel)]="selectedGroup"
+                name="parentGroupEdit"
+                [ngModelOptions]="{ standalone: true }"
+                placeholder="Seleccione el grupo padre"
+              >
+              <ion-select-option
+                *ngFor="let group of groups"
+                [value]="group.id"
+              >
+                {{ group.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+        <ion-label>Permisos</ion-label>
+        <ion-item>
+          <ion-checkbox  justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_init_request" [ngModelOptions]="{standalone: true}">Pantalla de Inicio Solicitud</ion-checkbox><br>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox  justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_init_excuse" [ngModelOptions]="{standalone: true}">Pantalla de Inicio Excusa</ion-checkbox><br>
+        </ion-item>
+        <ion-item>
+            <ion-checkbox  justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_states" [ngModelOptions]="{standalone: true}">Gestionar Estados</ion-checkbox><br>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_groups" [ngModelOptions]="{standalone: true}">Gestionar Grupos</ion-checkbox><br>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_users" [ngModelOptions]="{standalone: true}">Gestionar Usuarios</ion-checkbox><br>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_typerequests" [ngModelOptions]="{standalone: true}">Gestionar Tipo de Solicitud</ion-checkbox><br>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_requests" [ngModelOptions]="{standalone: true}">Enviar Solicitud</ion-checkbox><br>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_viewsolic" [ngModelOptions]="{standalone: true}">Ver Solicitudes</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_access_requests" [ngModelOptions]="{standalone: true}">Permitir Acceso de Login</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox justify="start" labelPlacement="end" [(ngModel)]="newGroup.permition_config" [ngModelOptions]="{standalone: true}">Configuraciones</ion-checkbox>
+        </ion-item>
+          <ion-button expand="full" type="submit" [disabled]="!formEdit.form.valid">
+            Actualizar
+          </ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- 🔎 Búsqueda -->
+  <form [formGroup]="searchForm">
+    <ion-searchbar
+      formControlName="search"
+      placeholder="Buscar grupo"
+    ></ion-searchbar>
+  </form>
+
+  <!-- 📃 Lista de Grupos -->
+  <ion-list>
+    <ion-item *ngFor="let group of groups">
+      <ion-label>
+        <h3>{{ group.name }}</h3>
+        <p>Grupo padre: {{ group.parentId || '—' }}</p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button color="danger" (click)="deleteGroup(group.id)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+        <ion-button color="success" (click)="editGroup(group)">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!-- ➕ Botón flotante -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openModalCreate()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

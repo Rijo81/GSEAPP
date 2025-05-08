@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/view-excuse"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle de Solicitud</ion-title>
+    <ion-buttons slot="end">
+      <ion-avatar id="user-avatar">
+        <img [src]="userPhoto || 'assets/user.png'" />
+      </ion-avatar>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-popover trigger="user-avatar" dismiss-on-select="true">
+    <ng-template>
+      <ion-list>
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar sesión
+        </ion-item>
+        <ion-item button (click)="changePassword()">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          Cambiar contraseña
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card *ngIf="request" class="detail-card">
+    <ion-card-header>
+      <ion-card-title>{{ request.typeName }}</ion-card-title>
+      <ion-card-subtitle>
+        <strong>De:</strong> {{ request.group_origin.name }} |
+        <strong>Para:</strong> {{ request.group_destine.name }}
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="data-list">
+        @for (key of objectKeys(request.formData); track $index) {
+          <div class="data-item">
+            <strong class="data-label">{{ key }}:</strong>
+
+            <ng-container *ngIf="isImage(request.formData[key]); else nonImageContent"><br>
+                <div class="image-container" (click)="openImageModal(request.formData[key])">
+                  <img [src]="request.formData[key]" class="data-image" />
+                  <div class="overlay-text">Clic para aplicar</div>
+                </div>
+            </ng-container>
+            <ng-template #nonImageContent>
+              @if (isStringOrNumber(request.formData[key])) {
+                <span class="data-value">{{ request.formData[key] }}</span>
+              }
+            </ng-template>
+          </div>
+        }
+      </div>
+
+      <ion-item class="custom-select">
+        <ion-label>Estado</ion-label>
+        <ion-select [(ngModel)]="selectedStateId" placeholder="Seleccione estado" (ionChange)="onStateChange($event.detail.value)">
+          <ion-select-option *ngFor="let state of states" [value]="state.id">
+            {{ state.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="full">
+        <ion-label position="stacked">Seleccionar documento</ion-label>
+        <!-- Input nativo oculto -->
+        <input
+          type="file"
+          #fileInput
+          (change)="onDocumentSelected($event)"
+          accept=".pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          hidden
+        />
+        <!-- Botón que dispara el selector -->
+        <ion-button expand="block" (click)="fileInput.click()" fill="outline">
+          <ion-icon slot="start" name="document-attach-outline"></ion-icon>
+          Elegir documento (PDF/DOC/DOCX)
+        </ion-button>
+      </ion-item>
+
+      <!-- Vista previa mínima -->
+      <ion-card *ngIf="docPreviewUrl">
+        <ion-card-content class="ion-text-center">
+          <ion-icon name="document-text" size="large"></ion-icon>
+          <p>
+            <a [href]="docPreviewUrl" target="_blank">Ver documento seleccionado</a>
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-button expand="block" color="success" (click)="updateStateDoc()" [disabled]="!isStateChanged">
+        Solicitud Completada (Estado)
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

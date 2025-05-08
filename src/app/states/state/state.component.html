@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Estados</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-avatar id="userstate-avatar">
+        <img [src]="userPhoto || 'assets/user.png'" />
+      </ion-avatar>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-popover trigger="userstate-avatar" dismiss-on-select="true">
+    <ng-template>
+      <ion-list>
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar sesión
+        </ion-item>
+        <ion-item button (click)="changePassword()">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          Cambiar contraseña
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="states-container">
+  <ion-label>
+    <h1 class="sub-title">Gestión de Estado</h1>
+  </ion-label>
+    <ion-modal #modalCreate>
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button color="light" (click)="cancelModalCreate()">Cancel</ion-button>
+            </ion-buttons>
+            <ion-title>Crear Estado</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-item>
+            <form trigger="form-create"  (submit)="isEditing ? updateState() : addState()">
+                <ion-input type="text"  [(ngModel)]="newState.name" name="name"  placeholder="Nombre del Estado" required></ion-input>
+                <ion-button type="submit" expand="block" shape="round">
+                  {{ isEditing ? 'Actualizar' : 'Agregar' }}
+                </ion-button>
+              </form>
+              <hr>
+          </ion-item>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <ion-modal #modalUpdate>
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button color="light" (click)="cancelModalUpdate()">Cancel</ion-button>
+            </ion-buttons>
+            <ion-title>Actualizar Estado</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-item>
+            <form trigger="form-create"  (submit)="isEditing ? updateState() : addState()">
+                <ion-input type="text" [(ngModel)]="newState.name" placeholder="Nombre" name="name" required></ion-input>
+                <ion-button type="submit" expand="block" shape="round">
+                  {{ isEditing ? 'Actualizar' : 'Agregar' }}
+                </ion-button>
+              </form>
+          </ion-item>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+  <form [formGroup]="searchForm">
+      <ion-searchbar formControlName="search" placeholder="Buscar Estado" ></ion-searchbar>
+  </form>
+   <ion-list>
+        @for (stat of state; track $index) {
+          <ion-item class="list-item">
+            <ion-label>
+              <h3>{{stat.name}}</h3>
+            </ion-label>
+            <div class="actions">
+
+              <ion-buttons slot="end">
+                <ion-button color="danger" (click)="deleteState(stat.id)">
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+                <ion-button color="success" (click)="editState(stat)">
+                  <ion-icon slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </div>
+          </ion-item>
+        }
+    </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openModalCreate()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  </div>
+</ion-content>

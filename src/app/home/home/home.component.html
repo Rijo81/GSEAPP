@@ -1,0 +1,39 @@
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Sistema de Solicitud</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-avatar id="user-avatar">
+        <img [src]="userPhoto || 'assets/user.png'" />
+      </ion-avatar>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-popover trigger="user-avatar" dismiss-on-select="true">
+    <ng-template>
+      <ion-list>
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar sesión
+        </ion-item>
+        <ion-item button (click)="changePassword()">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          Cambiar contraseña
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
+</ion-header>
+<ion-content>
+<div class="contenedor-inicio">
+  <h1 class="titulo">{{ datos.title }}</h1>
+
+  <div class="imagen-central">
+    <ion-img [src]="datos.image"></ion-img>
+  </div>
+
+  <p class="direccion">{{ datos.text }}</p>
+</div>
+</ion-content>

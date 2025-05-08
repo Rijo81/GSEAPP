@@ -1,0 +1,7 @@
+{
+  "name": "C-orders",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

@@ -1,0 +1,38 @@
+.image-viewer {
+  --background: #fff; // Fondo blanco
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+
+  .full-img {
+    width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.01);
+    }
+  }
+
+  ion-button {
+    margin-top: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  // Para escritorio (pantallas grandes)
+  @media (min-width: 768px) {
+    .full-img {
+      width: 80%;
+      max-width: 1000px;
+    }
+  }
+}

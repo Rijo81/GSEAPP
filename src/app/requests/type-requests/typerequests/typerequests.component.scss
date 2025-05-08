@@ -1,0 +1,150 @@
+// // Variables de tu paleta
+// $green-light: #a8e6cf;
+// $green-dark:  #37966f;
+// $yellow-accent: #ffd3b6;
+
+// Lista entera
+.type-list {
+  margin: 0.5rem;
+  padding: 0;
+
+  .type-item {
+    // Margen entre tarjetas
+    margin-bottom: 0.75rem;
+
+    // Estilo de “tarjeta”
+    --background: $green-light;
+    border-radius: 0.6rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+    // Ajustes de padding internos
+    --inner-padding-top: 0.75rem;
+    --inner-padding-bottom: 0.75rem;
+    --inner-padding-start: 1rem;
+    --inner-padding-end: 1rem;
+
+    // Quitar líneas separadoras
+    --border-style: none;
+
+    //Color de texto
+    //color: $green-dark;
+    font-weight: bold;
+
+    // Icono al inicio
+    ion-icon {
+      font-size: 1.4rem;
+      //color: $green-dark;
+      margin-right: 0.75rem;
+    }
+
+    // Efecto hover / active
+    &:hover {
+      transform: translateY(-2px);
+      transition: transform 0.2s ease;
+    }
+    &:active {
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Centrar el ion-card horizontalmente y limitar ancho */
+.centered-card {
+  margin: 2rem auto;
+  max-width: 800px;
+  width: 95%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: var(--ion-border-radius);
+}
+.title{
+  color: #33691e;
+  font-weight: 700;
+  text-align: center;
+  font-size: 2em;
+}
+
+/* Espaciado general del formulario */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Espaciado entre ítems */
+.type-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Estilo individual para cada ion-item */
+.type-item {
+  border-radius: var(--ion-border-radius);
+  --background: var(--ion-color-medium);
+  padding: 0.5rem;
+  color: #33691e;
+}
+
+/* Inputs y selects responsivos */
+ion-input, ion-select {
+  width: 100%;
+}
+
+/* Botones */
+ion-button {
+  margin-top: 0.5rem;
+}
+
+/* Opciones dentro de campos dinámicos */
+[type="text"][formControlName="name"] {
+  flex: 1;
+}
+
+/* Contenedor de opciones con separación */
+ion-list[formArrayName="options"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Ajuste visual para botones en lista */
+ion-list[formArrayName="options"] ion-button {
+  margin-left: 1rem;
+}
+
+/* Responsive ajustes desde 768px */
+@media (min-width: 768px) {
+  .form-section {
+    padding: 1rem 2rem;
+  }
+
+  ion-item {
+    --inner-padding-end: 0.5rem;
+    --inner-padding-start: 0.5rem;
+  }
+
+  ion-button {
+    width: fit-content;
+    align-self: flex-start;
+  }
+
+  ion-button[expand="block"] {
+    width: 100%;
+  }
+}
+
+/* Estilo lista de tipos */
+ion-list.type-list:last-of-type {
+  margin-top: 2rem;
+  border-top: 1px solid rgba(3, 165, 17, 0.1);
+  padding-top: 1rem;
+  color: #33691e;
+}
+.select-section {
+  .selector-item {
+    --background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+}

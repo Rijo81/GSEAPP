@@ -1,0 +1,140 @@
+// — paleta —
+$lime:      #7CE200;
+$forest:    #11770E;
+$ivory:     #FFFAED;
+$canary:    #FFF314;
+$darkGray:  #4C4C4C;
+
+// Borra cualquier flex previo
+ion-content.login-page {
+  --background: none;
+  background: linear-gradient(135deg, $forest 0%, $lime 100%);
+}
+
+.btn{
+  background-color: #11770E;
+  color: #fff;
+  font-size: larger;
+}
+// Tarjeta
+.login-container {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+// Logo
+.logo {
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border: 3px solid $lime;
+  border-radius: 50%;
+  overflow: hidden;
+  --object-fit: cover;
+}
+
+// Título
+.title {
+  margin: 0;
+  color: $darkGray;
+  font-size: 1.25rem; font-weight: 600;
+}
+
+// Form
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+// Ion‑item
+.login-form ion-item {
+  --background: #fff;
+  --border-style: none;
+  border-radius: .5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+// Toggle
+.login-form .toggle-item ion-toggle {
+  --handle-background: $canary;
+  --background-checked: rgba($forest,0.2);
+}
+
+// Botón
+.login-form ion-button {
+  --background: $forest;
+  --color: $darkGray;
+  height: 3.5rem; border-radius: .5rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+// Links
+.login-form .links ion-item {
+  --background: transparent;
+  --inner-background: transparent;
+  color: $forest;
+  font-weight: 500;
+}
+
+// Error
+.login-form .error {
+  color: #e74c3c;
+  font-size: .9rem;
+}
+
+// .access{
+//   color: red;
+//   font-family: "Helvetica Neue",Helvetica;
+//   font-size: 18px;
+//   margin-bottom: 10px;
+//   font-weight: 600;
+//   text-align: center;
+//   transition: color 0.3s ease;
+//   cursor: pointer;
+//   &:hover{
+//     color: rgb(241, 98, 98);
+//   }
+// }
+
+// .key{
+//   color: rgb(5, 92, 206);
+//   font-size: 22px;
+//   font-weight: 600;
+//   text-align: center;
+// }
+
+// ion-item.btn-back {
+//   background-color: var(--ion-color-primary);
+//   color: rgb(16, 7, 186);
+//   border-radius: 8px;
+//   margin: 10px 0;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+//   text-align: center;
+//   justify-content: center;
+
+//   ion-label {
+//     width: 100%;
+//     text-align: center;
+//     font-weight: bold;
+//     font-size: 1rem;
+//   }
+
+//   &:hover {
+//     filter: brightness(1.1);
+//     cursor: pointer;
+//   }
+
+//   &:active {
+//     transform: scale(0.98);
+//     transition: 0.1s ease-in-out;
+//   }
+// }

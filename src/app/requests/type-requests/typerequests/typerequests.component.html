@@ -1,0 +1,139 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Tipos de Solicitudes</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-avatar id="usertype-avatar">
+        <img [src]="userPhoto || 'assets/user.png'" />
+      </ion-avatar>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-popover trigger="usertype-avatar" dismiss-on-select="true">
+    <ng-template>
+      <ion-list>
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar sesión
+        </ion-item>
+        <ion-item button (click)="changePassword()">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          Cambiar contraseña
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-card class="centered-card">
+    <ion-card-header>
+      <ion-card-title class="title">Crear tipo de Solicitud</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="typeRequestForm" class="form-section">
+        <ion-list class="type-list">
+          <ion-item class="type-item">
+            <ion-label position="floating">Nombre Solicitud</ion-label><br>
+            <ion-input
+              formControlName="name"
+              placeholder="Nombre"
+            ></ion-input>
+          </ion-item>
+            <ion-item class="type-item">
+              <ion-label>Grupo Origen</ion-label>
+              <ion-select formControlName="group_origin" placeholder="Seleccione Origen">
+                @for (group of groups; track $index) {
+                  <ion-select-option [value]="group.id">
+                    {{ group.name }}
+                  </ion-select-option>
+                }
+              </ion-select>
+            </ion-item>
+
+            <ion-item class="type-item">
+              <ion-label>Grupo Destino</ion-label>
+              <ion-select formControlName="group_destine" placeholder="Seleccione Destino">
+                @for (group of groups; track $index) {
+                  <ion-select-option [value]="group.id">
+                    {{ group.name }}
+                  </ion-select-option>
+                }
+              </ion-select>
+            </ion-item>
+
+          <!-- Campos dinámicos -->
+          <div formArrayName="fields">
+            <div *ngFor="let field of fields.controls; let i = index" [formGroupName]="i">
+
+              <!-- Campo: Nombre del campo -->
+              <ion-item>
+                <ion-label position="floating">Nombre del campo</ion-label>
+                <ion-input formControlName="name"></ion-input>
+              </ion-item>
+
+              <!-- Campo: Tipo del campo -->
+              <ion-item>
+                <ion-label position="floating">Tipo de campo</ion-label>
+                <ion-select formControlName="type" (ionChange)="onFieldTypeChange(i); showOptionsList[i] = ['radiobutton', 'lista', 'checkbox'].includes($event.detail.value)">
+                  <ion-select-option value="string">Texto</ion-select-option>
+                  <ion-select-option value="number">Numérico</ion-select-option>
+                  <ion-select-option value="document">Documento e img</ion-select-option>
+                  <ion-select-option value="checkbox">Checkbox</ion-select-option>
+                  <ion-select-option value="radiobutton">Radiobutton</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <!-- OPCIONES (solo se muestran si el tipo lo requiere) -->
+              <div *ngIf="showOptionsList[i]" class="ion-padding-start">
+                <ion-list>
+                  <div formArrayName="options">
+                    <div *ngFor="let option of getOptions(i).controls; let j = index" [formGroupName]="j">
+                      <ion-item>
+                        <ion-label position="floating">Opción {{ j + 1 }}</ion-label>
+                        <ion-input formControlName="name" placeholder="Nombre de la opción"></ion-input>
+                        <ion-button fill="clear" color="danger" slot="end" (click)="removeOption(i, j)">
+                          <ion-icon name="trash"></ion-icon>
+                        </ion-button>
+                      </ion-item>
+                    </div>
+                  </div>
+                </ion-list>
+                <ion-button size="small" expand="block" (click)="addOption(i)">
+                  Añadir opción
+                </ion-button>
+              </div>
+
+              <!-- Botón para eliminar campo -->
+              <ion-button color="danger" fill="clear" (click)="removeField(i)">
+                <ion-icon name="trash"></ion-icon>
+                Eliminar campo
+              </ion-button>
+            </div>
+          </div>
+
+
+        <ion-button expand="block" (click)="addField()"
+          [disabled]="!typeRequestForm.valid">
+          Añadir Campo
+        </ion-button>
+
+        <ion-button expand="block" color="secondary" (click)="addTypeRequest()"
+          [disabled]="fields.length === 0">
+          Guardar Tipo Solicitud
+        </ion-button>
+        </ion-list>
+      </form>
+    </ion-card-content>
+  </ion-card>
+  <!-- Lista de Tipos de Solicitudes -->
+  <ion-list class="type-list">
+    <ion-item class="type-item" *ngFor="let type of typeRequests">
+      <ion-icon slot="start" name="document-text-outline"></ion-icon>
+      <ion-label>{{ type.name }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+

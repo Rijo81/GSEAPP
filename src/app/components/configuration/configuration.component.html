@@ -1,0 +1,208 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Configuraciones</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-avatar id="config-avatar">
+        <img [src]="userPhoto || 'assets/user.png'" />
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-popover trigger="config-avatar" dismiss-on-select="true">
+    <ng-template>
+      <ion-list>
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar sesión
+        </ion-item>
+        <ion-item button (click)="changePassword()">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          Cambiar contraseña
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Configuración de Pantalla de Inicio</ion-card-title>
+    </ion-card-header>
+
+    <!-- Bloque SOLICITUD -->
+    <ion-card-content>
+      <ion-toggle
+      [checked]="showForm.formSolict"
+      (ionChange)="toggleSection('formSolict', $event)"
+      >
+        {{ showForm.formSolict
+           ? 'Ocultar formulario'
+           : 'Editar pantalla de inicio (Solicitud)' }}
+      </ion-toggle>
+
+      <div *ngIf="showForm.formSolict" class="ion-margin-top">
+        <!-- Título y Texto -->
+        <ion-item>
+          <ion-label position="floating">Título</ion-label>
+          <ion-input [(ngModel)]="newTitle"></ion-input>
+        </ion-item>
+        <ion-item class="ion-margin-top">
+          <ion-label position="floating">Dirección</ion-label>
+          <ion-input [(ngModel)]="newText"></ion-input>
+        </ion-item>
+
+        <!-- Botón Actualizar -->
+        <ion-button
+          expand="block"
+          (click)="updateDataTitleText()"
+          [disabled]="!canUpdateSolicit">
+          Actualizar
+        </ion-button>
+
+        <!-- Seleccionar Imagen -->
+        <ion-button
+          expand="block"
+          color="tertiary"
+          class="ion-margin-top"
+          (click)="selectSolicitImage()">
+          Seleccionar Imagen Central
+        </ion-button>
+
+        <!-- Nombre de archivo -->
+        <div
+          *ngIf="selectedSolicitImgName"
+          class="ion-text-center ion-margin-top">
+          {{ selectedSolicitImgName }}
+        </div>
+
+        <!-- Subir Imagen -->
+        <ion-button
+          expand="block"
+          color="tertiary"
+          [disabled]="!canUploadSolicitImage"
+          (click)="uploadSolicitImage()">
+          Subir Imagen Central
+        </ion-button>
+      </div>
+    </ion-card-content>
+
+    <!-- Bloque EXCUSA -->
+    <ion-card-content>
+      <ion-toggle
+      [checked]="showForm.formExcuse"
+      (ionChange)="toggleSection('formExcuse', $event)"
+      >
+        {{ showForm.formExcuse
+           ? 'Ocultar formulario'
+           : 'Editar pantalla de inicio (Excusa)' }}
+      </ion-toggle>
+
+      <div *ngIf="showForm.formExcuse" class="ion-margin-top">
+        <!-- Título y Texto -->
+        <ion-item>
+          <ion-label position="floating">Título</ion-label>
+          <ion-input [(ngModel)]="newTitle"></ion-input>
+        </ion-item>
+        <ion-item class="ion-margin-top">
+          <ion-label position="floating">Dirección</ion-label>
+          <ion-input [(ngModel)]="newText"></ion-input>
+        </ion-item>
+
+        <!-- Botón Actualizar -->
+        <ion-button
+          expand="block"
+          (click)="updateDataTitleTextExcuse()"
+          [disabled]="!canUpdateExcuse">
+          Actualizar
+        </ion-button>
+
+        <!-- Seleccionar Imagen -->
+        <ion-button
+          expand="block"
+          color="tertiary"
+          class="ion-margin-top"
+          (click)="selectExcuseImage()">
+          Seleccionar Imagen Central
+        </ion-button>
+
+        <!-- Nombre de archivo -->
+        <div
+          *ngIf="selectedExcuseImgName"
+          class="ion-text-center ion-margin-top">
+          {{ selectedExcuseImgName }}
+        </div>
+
+        <!-- Subir Imagen -->
+        <ion-button
+          expand="block"
+          color="tertiary"
+          [disabled]="!canUploadExcuseImage"
+          (click)="uploadExcuseImage()">
+          Subir Imagen Central
+        </ion-button>
+      </div>
+    </ion-card-content>
+
+    <!-- Bloque LOGO -->
+    <ion-card-content>
+      <ion-toggle
+      [checked]="showForm.formLogo"
+      (ionChange)="toggleSection('formLogo', $event)"
+      >
+        {{ showForm.formLogo ? 'Ocultar formulario' : 'Cambiar logo' }}
+      </ion-toggle>
+
+      <div *ngIf="showForm.formLogo" class="ion-margin-top">
+          <!-- Título y Texto -->
+          <ion-item>
+            <ion-label position="floating">Título</ion-label>
+            <ion-input [(ngModel)]="newTitle"></ion-input>
+          </ion-item>
+
+          <!-- Botón Actualizar -->
+          <ion-button
+            expand="block"
+            (click)="updateLogoTitleText()"
+            [disabled]="!canUpdateTitleLogo">
+            Actualizar
+          </ion-button>
+        <!-- Seleccionar Logo -->
+        <ion-button
+          expand="block"
+          color="primary"
+          (click)="selectLogoImage()">
+          Seleccionar Imagen Logo
+        </ion-button>
+
+        <!-- Nombre de archivo -->
+        <div
+          *ngIf="selectedLogoImgName"
+          class="ion-text-center ion-margin-top">
+          {{ selectedLogoImgName }}
+        </div>
+
+        <!-- Subir Logo -->
+        <ion-button
+          expand="block"
+          color="primary"
+          [disabled]="!canUploadLogoImage"
+          (click)="uploadLogoImage()">
+          Subir Imagen Logo
+        </ion-button>
+      </div>
+    </ion-card-content>
+
+    <!-- Modo Oscuro -->
+    <ion-item>
+      <ion-label>Modo Oscuro</ion-label>
+      <ion-toggle
+        [checked]="showForm.isDarkMode"
+        (ionChange)="toggleDarkMode($event)">
+      </ion-toggle>
+    </ion-item>
+  </ion-card>
+</ion-content>

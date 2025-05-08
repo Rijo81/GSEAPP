@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/view-excuse"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle de Solicitud de Acceso</ion-title>
+    <ion-buttons slot="end">
+      <ion-avatar id="user-avatar">
+        <img [src]="userPhoto || 'assets/user.png'" />
+      </ion-avatar>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-popover trigger="user-avatar" dismiss-on-select="true">
+    <ng-template>
+      <ion-list>
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar sesión
+        </ion-item>
+        <ion-item button (click)="changePassword()">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          Cambiar contraseña
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-button (click)="goRegisterUser()" shape="round" class="register-button">
+    Registrar Usuario
+  </ion-button>
+
+  <ion-card *ngIf="access" class="detail-card">
+    <ion-card-header>
+      <ion-card-title>'Solicitado: '{{  access.created_at | date:'short' }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="data-list">
+        <ion-item>
+          <ion-label>
+            <h2>{{ access.fullname }}</h2>
+            <p>Email: {{ access.email }}</p>
+            <p>Teléfono: {{ access.phone }}</p>
+            <p>Información: {{ access.information }}</p>
+            <p>Grupo: {{ access.group }}</p>
+            <ng-container [ngSwitch]="access.group">
+              <ion-item *ngSwitchCase="'Docente'">
+                <ion-label>
+                  <p>Asignatura: {{ access.subjectSchool }}</p>
+                  <p>Curso: {{ access.courseTeacher }}</p>
+                  <p>Sección: {{ access.sectionTeacher }}</p>
+                  <p>Modalidad: {{ access.modalidad }}</p>
+                </ion-label>
+              </ion-item>
+              <ion-item *ngSwitchCase="'Estudiante'">
+                <ion-label>
+                  <p>Curso: {{ access.courseStudent }}</p>
+                  <p>Año Escolar: {{ access.schoolYear }}</p>
+                </ion-label>
+              </ion-item>
+              <ion-item *ngSwitchCase="'Padre'">
+                <ion-label>
+                  <p>Nombre del Estudiante: {{ access.nameChildren }}</p>
+                  <p>Curso: {{ access.courseFather }}</p>
+                  <p>Sección: {{ access.sectionFather }}</p>
+                  <p>Taller que pertenece: {{ access.workshop }}</p>
+                </ion-label>
+              </ion-item>
+              <!-- Por defecto nada más -->
+            </ng-container>
+          </ion-label>
+        </ion-item>
+      </div>
+      <ion-button class="accept" expand="block" color="success" (click)="acceptedRequestAccess(access.fullname, access.phone)">
+       Enviar Credenciales
+      </ion-button>
+      <ion-button class="reject" expand="block" color="danger" (click)="rejectedRequestAccess(access.fullname, access.phone)">
+        Solicitud Rechazada
+       </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

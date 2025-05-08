@@ -1,0 +1,91 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-img [src]="image"></ion-img>
+  <h1>Sistema de Solicitudes Institucional</h1>
+
+  <form [formGroup]="loginForm" (submit)="login()" >
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email" name="email" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" formControlName="password" name="password" required></ion-input>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Recordar credenciales</ion-label>
+      <ion-toggle formControlName="rememberMe" name="toggle"></ion-toggle>
+    </ion-item>
+    <ion-button expand="full" type="submit" [disabled]="loginForm.invalid" >Iniciar Sesión</ion-button>
+    <ion-item (click)="goAccessRequest()">
+      <ion-icon slot="start" name="key" class="key"></ion-icon>
+      <h4 class="access">Solicitud de Acceso</h4>
+    </ion-item>
+      <ion-label>{{error}}</ion-label>
+
+    <ion-item (click)="goForGot()" class="btn-back">
+      <ion-label>Olvide la Contraseña</ion-label>
+    </ion-item>
+  </form>
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen class="login-page">
+  <ion-grid>
+    <ion-row
+      class="ion-justify-content-center ion-align-items-center"
+      style="min-height: 100vh;"
+    >
+      <ion-col size="12" size-md="8" size-lg="6" size-xl="4">
+        <!-- Aquí va tu tarjeta -->
+        <div class="login-container">
+          <ion-img class="logo" [src]="logo"></ion-img>
+          <h1 class="title">{{ title }}</h1>
+          <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" formControlName="password" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="toggle-item">
+        <ion-label>Recordar credenciales</ion-label>
+        <ion-toggle formControlName="rememberMe"></ion-toggle>
+      </ion-item>
+
+      <ion-button expand="full" type="submit" class="btn" [disabled]="loginForm.invalid">
+        Iniciar Sesión
+      </ion-button>
+
+      <div class="links">
+        <ion-item button (click)="goAccessRequest()" lines="none">
+          <ion-icon slot="start" name="key"></ion-icon>
+          <ion-label>Solicitud de Acceso</ion-label>
+        </ion-item>
+        <ion-item button (click)="goForGot()" lines="none">
+          <ion-label>Olvidé la Contraseña</ion-label>
+        </ion-item>
+      </div>
+
+      <ion-label class="error" *ngIf="error">{{ error }}</ion-label>
+    </form>
+  </div>
+</ion-col>
+</ion-row>
+</ion-grid>
+</ion-content>

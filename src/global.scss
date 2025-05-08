@@ -1,0 +1,119 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import '@ionic/angular/css/palettes/dark.system.css';
+// // app.component.scss
+
+/* 1) Variables de paleta en src/theme/variables.scss */
+:root {
+  --ion-color-primary:   #7CE200;  /* light green */
+  --ion-color-secondary: #11770E;  /* dark  green */
+  --ion-color-tertiary:  #FFF314;  /* yellow */
+  --ion-color-medium:    #ffffff;  /* cream  white */
+  --ion-color-dark:      #4C4C4C;  /* dark   gray */
+
+  --ion-background-color:    var(--ion-color-medium);
+  --ion-toolbar-background:  var(--ion-color-primary);
+  --ion-toolbar-text-color:  #fff;
+  --ion-button-background:   var(--ion-color-secondary);
+  --ion-button-color:        #fff;
+  --ion-border-radius:       0.5rem;
+  --ion-button-padding-vert: 0.75rem;
+}
+
+/* 2) Global styles */
+ion-app, ion-content {
+  background: var(--ion-background-color);
+  color: var(--ion-color-dark);
+}
+ion-toolbar {
+  --background: var(--ion-toolbar-background);
+  --color:      var(--ion-toolbar-text-color);
+}
+ion-button {
+  --border-radius: var(--ion-border-radius);
+  --padding-top:   var(--ion-button-padding-vert);
+  --padding-bottom:var(--ion-button-padding-vert);
+  font-weight: 600;
+}
+ion-button[color="tertiary"] {
+  --background: var(--ion-color-tertiary);
+  --color:      var(--ion-color-dark);
+}
+
+/* 3) Grid helper wrapper */
+.page-grid {
+  padding: 1rem;
+}
+.page-grid ion-grid {
+  height: 100%;
+}
+.page-grid ion-row {
+  --ion-grid-column-padding: 0.5rem;
+}
+.page-grid ion-col {
+  margin-bottom: 1rem;
+}
+
+/* 4) Cards & list items */
+ion-card, .list-item {
+  border-radius: var(--ion-border-radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 5) Common titles */
+.sub-title, .titulo {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+/* 6) Form inputs */
+form ion-item, form ion-input, form input {
+  --border-radius: var(--ion-border-radius);
+  border: 1px solid rgba(0,0,0,0.1);
+  margin-bottom: 0.75rem;
+}
+
+/* 7) Responsive tweaks */
+@media (min-width: 768px) {
+  .page-grid ion-col[size="12"] { size: 6; }
+}
+
+.page-with-fab {
+  ion-content {
+    padding-bottom: 100px; // Ajusta según el tamaño de tu FAB
+  }
+}

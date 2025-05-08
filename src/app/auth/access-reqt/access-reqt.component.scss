@@ -1,0 +1,79 @@
+/* access-request.page.scss */
+:host {
+  ion-toolbar {
+    --background: #11770E;     /* verde claro */
+    --color:      #FFFFFF;
+  }
+
+  .ibb{
+    color: #FFFFFF;
+  }
+
+  ion-content {
+    background: #F5F5F5;
+
+    .access-form {
+      max-width: 600px;
+      margin: 1rem auto;
+      padding: 1rem;
+      display: grid;
+      grid-gap: 1.25rem;
+      background: #FFFFFF;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+      /* Dos columnas en pantallas amplias */
+      @media (min-width: 640px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      /* Forzar botón a ocupar ambas columnas */
+      .btn-submit {
+        --background: #11770E;  /* verde oscuro */
+        --color:      #FFFFFF;
+        font-weight: 600;
+        box-shadow:   0 2px 8px rgba(0,0,0,0.1);
+        grid-column: 1 / -1;
+      }
+
+      /* Ancho completo de textarea y select */
+      .full-width {
+        grid-column: 1 / -1;
+      }
+
+      .field-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .field-item {
+        --background: #FAFAFA;
+        --border-radius: 0.5rem;
+        --padding-start: 1rem;
+        --padding-end:   1rem;
+        --inner-padding-end: 1rem;
+      }
+
+      .error-text {
+        color: #E53935;        /* rojo error */
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+        padding-left: 0.5rem;
+      }
+
+      /* Resaltar borde en error */
+      ion-input.ng-invalid.ng-touched,
+      ion-textarea.ng-invalid.ng-touched,
+      ion-select.ng-invalid.ng-touched {
+        --highlight-color-focused: #E53935;
+        --highlight-color-shaded:  rgba(229,57,53,0.2);
+      }
+    }
+  }
+}
+.sub-title{
+  font-size: 30px;
+  color: #283593 ;
+  text-align: center;
+  font-weight: 700;
+}

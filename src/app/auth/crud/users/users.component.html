@@ -1,0 +1,201 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Usuarios</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-avatar id="use-avatar">
+        <img [src]="userPhoto || 'assets/user.png'" />
+      </ion-avatar>
+      </ion-buttons>
+    </ion-toolbar>
+    <ion-popover trigger="use-avatar" dismiss-on-select="true">
+    <ng-template>
+      <ion-list>
+        <ion-item button (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar sesión
+        </ion-item>
+        <ion-item button (click)="changePassword()">
+          <ion-icon name="key-outline" slot="start"></ion-icon>
+          Cambiar contraseña
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-popover>
+</ion-header>
+<ion-content class="ion-padding" [fullscreen]="true" page-with-fab scroll-content-padding>
+  <h1 class="sub-title">Gestión de Usuarios</h1>
+
+  <!-- 📃 Lista de Usuarios -->
+  <ion-list *ngIf="filteredUsers.length > 0; else noUsers">
+    <ion-item *ngFor="let user of filteredUsers">
+      <ion-avatar slot="start">
+        <img [src]="user.photo || '/src/assets/avatar.png'" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ user.name }}</h2>
+        <p>{{ user.email }}</p>
+        <p>Grupo: {{  user.group_id.name }}</p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button color="success" (click)="editUser(user)">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" (click)="deleteUser(user.id)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #noUsers>
+    <ion-text color="medium">
+      <p class="ion-text-center">No hay usuarios registrados.</p>
+    </ion-text>
+  </ng-template>
+
+
+
+  <!-- 🧾 Modal Crear Usuario -->
+  <ion-modal #modalCreate>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Nuevo Usuario</ion-title>
+          <ion-buttons slot="start">
+            <ion-button color="light" (click)="cancelModalCreate()">Cancelar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form (submit)="addUser()" #formCreate="ngForm">
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input
+              type="text"
+              name="name"
+              required
+              [(ngModel)]="newUser.name"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Correo Electrónico</ion-label>
+            <ion-input
+              type="email"
+              name="email"
+              required
+              [(ngModel)]="newUser.email"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Telefono</ion-label>
+            <ion-input
+              type="phone"
+              name="phone"
+              required
+              [(ngModel)]="newUser.phone"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Grupos</ion-label>
+            <ion-select value="peperoni" name="select2" [ngModelOptions]="{standalone: true}" [(ngModel)]="newUser.group_id" multiple="true" placeholder="Selecciona grupo">
+              <ion-select-option *ngFor="let group of groups" [value]="group.id">
+                {{ group.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" [(ngModel)]="newUser.password" name="password" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Foto</ion-label>
+            <input
+              type="file"
+              (change)="uploadPhoto($event)"
+              accept="image/*"
+            />
+          </ion-item>
+
+          <ion-button expand="full" type="submit" [disabled]="!formCreate.form.valid">
+            Crear Usuario
+          </ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- 📝 Modal Editar Usuario -->
+  <ion-modal #modalUpdate>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Editar Usuario</ion-title>
+          <ion-buttons slot="start">
+            <ion-button color="light" (click)="cancelModalUpdate()">Cancelar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form (submit)="updateUser()" #formEdit="ngForm">
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input
+              type="text"
+              name="editName"
+              required
+              [(ngModel)]="newUser.name"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Correo Electrónico</ion-label>
+            <ion-input
+              type="email"
+              name="editEmail"
+              required
+              [(ngModel)]="newUser.email"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Telefono</ion-label>
+            <ion-input
+              type="phone"
+              name="phone"
+              required
+              [(ngModel)]="newUser.phone"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Grupo</ion-label>
+            <ion-select name="editGroupId" [(ngModel)]="newUser.group_id" interface="popover" [compareWith]="compareGroups">
+              <ion-select-option *ngFor="let group of groups" [value]="group.id">
+                {{ group.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-button expand="full" type="submit" [disabled]="!formEdit.form.valid">
+            Actualizar Usuario
+          </ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+   <!-- ➕ FAB Botón flotante -->
+ <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="openModalCreate()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</ion-content>
+
